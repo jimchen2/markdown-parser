@@ -14,3 +14,4 @@ docker build -t jimchen2/markdown-parser .
 
 1. Build backend with image pasting options
 2. Rename files
+3. No password for viewing
