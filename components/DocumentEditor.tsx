@@ -10,7 +10,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ document, onChange }) =
   if (!document) return null;
 
   return (
-    <div className="w-2/5 flex flex-col bg-gray-100 p-6 rounded-lg shadow-md">
+    <div className="flex min-h-screen flex-col bg-gray-100 p-6 rounded-lg shadow-md">
       <div className="mb-6 flex space-x-4">
         <input
           type="date"

@@ -50,7 +50,7 @@ export default function Home() {
   if (isMobile) {
     return (
       <div className="min-h-screen bg-gray-100 flex flex-col">
-        <div className="p-4 flex flex-col gap-4">
+        <div className="flex flex-col gap-4 pb-16"> {/* Added padding-bottom to make space for the fixed button */}
           <section>
             <button
               className="text-black p-2 rounded bg-gray-200 hover:bg-gray-400 w-full"
@@ -59,37 +59,38 @@ export default function Home() {
               New Document
             </button>
           </section>
-
-          <section>
+  
+          <section className="p-4">
             <DocumentTree
               documents={documents}
               onSelectDocument={fetchDocument}
               onDeleteDocument={handleDeleteDocument}
             />
           </section>
-
-          <section className="flex-grow">
+  
+          <section>
             <DocumentEditor
               document={selectedDoc}
               onChange={handleDocumentChange}
             />
           </section>
-
+  
           <section>
             <Preview
               markdown={selectedDoc?.body || ""}
               title={selectedDoc?.title || "Untitled"}
             />
           </section>
-
-          <section>
-            <button
-              className="bg-gray-200 text-black p-2 rounded hover:bg-gray-400 w-full"
-              onClick={handleCookieButton}
-            >
-              Set Cookie
-            </button>
-          </section>
+        </div>
+  
+        {/* Fixed position button at bottom left */}
+        <div className="fixed bottom-4 left-4">
+          <button
+            className="bg-gray-200 text-black p-2 rounded hover:bg-gray-400"
+            onClick={handleCookieButton}
+          >
+            Set Cookie
+          </button>
         </div>
       </div>
     );
@@ -112,7 +113,13 @@ export default function Home() {
           />
         </div>
       </div>
-      <DocumentEditor document={selectedDoc} onChange={handleDocumentChange} />
+      <div className="w-2/5">
+        <DocumentEditor
+          document={selectedDoc}
+          onChange={handleDocumentChange}
+        />{" "}
+      </div>
+
       <div className="w-2/5">
         {" "}
         <Preview

@@ -23,4 +23,4 @@ const DocumentSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-export default mongoose.models.Document || mongoose.model('Document', DocumentSchema);
+export default mongoose.models.Document || mongoose.model('Document', DocumentSchema, 'documents');

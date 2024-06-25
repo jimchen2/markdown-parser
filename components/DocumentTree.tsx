@@ -25,7 +25,7 @@ const DocumentTree: React.FC<DocumentTreeProps> = ({
     return (
       <div className="bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold mb-6 text-gray-800">Documents</h2>
-        <p className="text-gray-500">No documents available.</p>
+        <p className="text-gray-500"> No documents available.</p>
       </div>
     );
   }
