@@ -1,13 +1,23 @@
+# Use the official Node.js image as a base
+FROM node:22-alpine
 
-## Install 
-```sh
-# configure .env
-docker run -d --restart always --env-file .env -p 3048:3000 jimchen2/task-manager-nextjs:latest
-```
+# Create and change to the app directory
+WORKDIR /app
 
-## Build
+# Install Git and other dependencies
+RUN apk add --no-cache git
 
-```sh
-# add Dockerfile
-docker build -t jimchen2/task-manager-nextjs .
-```
+# Clone the repository
+RUN git clone https://github.com/jimchen2/markdown-parser .
+
+# Install dependencies
+RUN npm install
+
+# Build the Next.js app
+RUN npm run build
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Run the Next.js app
+CMD ["npm", "start"]

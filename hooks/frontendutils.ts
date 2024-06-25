@@ -1,4 +1,4 @@
-import { DocumentType } from "./types";
+import { DocumentType } from "../types";
 
 export async function fetchDocumentMetadata() {
   const response = await fetch("/api/getDocumentMetadata");

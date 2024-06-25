@@ -20,4 +20,4 @@ export default withAuth(async function handler(
   } else {
     res.status(405).json({ success: false, message: "Method not allowed" });
   }
-}
+})
