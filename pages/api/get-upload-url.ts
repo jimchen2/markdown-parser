@@ -34,7 +34,7 @@ export default withAuth(async function handler(
       expiresIn: 3600,
     });
 
-    const imageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_DEFAULT_REGION}.amazonaws.com/${fileName}`;
+    const imageUrl = `${process.env.AWS_PUBLIC_URL}/${fileName}`;
 
     res.status(200).json({ uploadUrl, imageUrl });
   } catch (error) {
