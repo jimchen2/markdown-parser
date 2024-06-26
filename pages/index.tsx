@@ -5,6 +5,8 @@ import Preview from "../components/Preview";
 import { useDocuments } from "../hooks/useDocuments";
 import { setCookie } from "../components/cookie";
 import { DocumentType } from "../types";
+import MobileView from "../mobile/MobileView";
+import CookieModal from "../components/CookieModal";
 
 const defaultDocument: DocumentType = {
   _id: "",
@@ -26,10 +28,11 @@ export default function Home() {
   } = useDocuments();
 
   const [isMobile, setIsMobile] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // Adjust this breakpoint as needed
+      setIsMobile(window.innerWidth < 768);
     };
 
     checkMobile();
@@ -39,60 +42,29 @@ export default function Home() {
   }, []);
 
   const handleCookieButton = () => {
-    const cookieValue = prompt("Enter a value for the cookie:");
-    if (cookieValue) {
-      setCookie(cookieValue);
-      alert("Cookie set successfully!");
-      window.location.reload();
-    }
+    setIsModalOpen(true);
+  };
+
+  const handleSetCookie = (cookieValue: string) => {
+    setCookie(cookieValue);
+    setIsModalOpen(false);
+    window.location.reload();
   };
 
   if (isMobile) {
     return (
-      <div className="min-h-screen bg-gray-100 flex flex-col">
-        <div className="flex flex-col gap-4 pb-16"> {/* Added padding-bottom to make space for the fixed button */}
-          <section>
-            <button
-              className="text-black p-2 rounded bg-gray-200 hover:bg-gray-400 w-full"
-              onClick={handleNewDocument}
-            >
-              New Document
-            </button>
-          </section>
-  
-          <section className="p-4">
-            <DocumentTree
-              documents={documents}
-              onSelectDocument={fetchDocument}
-              onDeleteDocument={handleDeleteDocument}
-            />
-          </section>
-  
-          <section>
-            <DocumentEditor
-              document={selectedDoc}
-              onChange={handleDocumentChange}
-            />
-          </section>
-  
-          <section>
-            <Preview
-              markdown={selectedDoc?.body || ""}
-              title={selectedDoc?.title || "Untitled"}
-            />
-          </section>
-        </div>
-  
-        {/* Fixed position button at bottom left */}
-        <div className="fixed bottom-4 left-4">
-          <button
-            className="bg-gray-200 text-black p-2 rounded hover:bg-gray-400"
-            onClick={handleCookieButton}
-          >
-            Set Cookie
-          </button>
-        </div>
-      </div>
+      <MobileView
+        documents={documents}
+        selectedDoc={selectedDoc}
+        fetchDocument={fetchDocument}
+        handleDocumentChange={handleDocumentChange}
+        handleNewDocument={handleNewDocument}
+        handleDeleteDocument={handleDeleteDocument}
+        handleCookieButton={handleCookieButton}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleSetCookie={handleSetCookie}
+      />
     );
   }
 
@@ -117,22 +89,34 @@ export default function Home() {
         <DocumentEditor
           document={selectedDoc}
           onChange={handleDocumentChange}
-        />{" "}
+          isMobile={isMobile}
+        />
       </div>
-
       <div className="w-2/5">
-        {" "}
         <Preview
           markdown={selectedDoc?.body || ""}
           title={selectedDoc?.title || "Untitled"}
+          isMobile={isMobile}
         />
       </div>
-      <button
-        className="absolute bottom-4 left-4 bg-gray-200 text-black p-2 rounded hover:bg-gray-400"
-        onClick={handleCookieButton}
-      >
-        Set Cookie
-      </button>
+      <div className="absolute bottom-4 left-4 flex flex-col items-center">
+        <button
+          className="bg-amber-100 text-amber-800 p-4 rounded-full hover:bg-amber-200 w-24 h-24 flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-110"
+          onClick={handleCookieButton}
+        >
+          <span className="text-6xl" role="img" aria-label="Cookie">
+            🍪
+          </span>
+        </button>
+        <span className="mt-2 text-sm font-medium text-gray-600">
+          Set Cookie
+        </span>
+      </div>
+      <CookieModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSetCookie={handleSetCookie}
+      />
     </div>
   );
 }

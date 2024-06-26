@@ -48,7 +48,7 @@ const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
         <div>
           <button
             onClick={exportToHTML}
-            className="bg-gray-200 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+            className="bg-gray-200 hover:bg-gray-400 text-black font-normal py-2 px-4 rounded"
           >
             Export to PDF
           </button>

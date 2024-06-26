@@ -1,37 +1,33 @@
-import React from 'react';
-import { DocumentType } from '../types';
+import React from "react";
+import { DocumentType } from "../types";
+import useDocumentStats from "./useDocumentStats";
+import useImageUpload from "./useImageUpload";
+import EditorHeader from "./EditorHeader";
+import EditorBody from "./EditorBody";
+import EditorFooter from "./EditorFooter";
 
 interface DocumentEditorProps {
   document: DocumentType | null;
   onChange: (field: string, value: string) => void;
+  isMobile: boolean;
 }
 
-const DocumentEditor: React.FC<DocumentEditorProps> = ({ document, onChange }) => {
+const DocumentEditor: React.FC<DocumentEditorProps> = ({ document, onChange, isMobile }) => {
+  const { wordCount, charCount } = useDocumentStats(document);
+  const { isUploading, handleImageUpload, handlePaste } = useImageUpload(document, onChange);
+
   if (!document) return null;
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-100 p-6 rounded-lg shadow-md">
-      <div className="mb-6 flex space-x-4">
-        <input
-          type="date"
-          className="w-1/2 p-3 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-          value={document.date || ''}
-          onChange={(e) => onChange('date', e.target.value)}
-        />
-        <input
-          type="text"
-          className="w-1/2 p-3 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-          value={document.type || ''}
-          onChange={(e) => onChange('type', e.target.value)}
-          placeholder="Type (tag)"
-        />
-      </div>
-      <textarea
-        className="flex-grow p-4 bg-white rounded-md resize-none focus:outline-none transition"
-        value={document.body || ''}
-        onChange={(e) => onChange('body', e.target.value)}
-        placeholder="Enter your Markdown here..."
-      ></textarea>
+    <div className={`flex flex-col bg-gray-100 p-6 rounded-lg shadow-md ${!isMobile ? 'min-h-screen' : 'min-h-[600px]'}`}>
+      <EditorHeader document={document} onChange={onChange} />
+      <EditorBody document={document} onChange={onChange} onPaste={handlePaste} />
+      <EditorFooter
+        wordCount={wordCount}
+        charCount={charCount}
+        isUploading={isUploading}
+        onUpload={handleImageUpload}
+      />
     </div>
   );
 };

@@ -12,16 +12,21 @@ export function withAuth(handler: (req: NextApiRequest, res: NextApiResponse) =>
 
     const authKey = req.cookies.authKey;
 
-    if (req.method === 'GET') {
-      if (authKey !== adminKey && authKey !== viewKey) {
-        return res.status(401).json({ success: false, message: 'Unauthorized' });
-      }
-    } else {
-      if (authKey !== adminKey) {
-        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    // If admin key is present, check for it
+    if (adminKey) {
+      if (authKey === adminKey) {
+        return handler(req, res);
       }
     }
 
-    return handler(req, res);
+    // If view key is present, check for it (for both GET and POST)
+    if (viewKey) {
+      if (authKey === viewKey) {
+        return handler(req, res);
+      }
+    }
+
+    // If we've reached this point, the authentication has failed
+    return res.status(401).json({ success: false, message: 'Unauthorized' });
   };
 }
