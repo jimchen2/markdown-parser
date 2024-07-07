@@ -69,10 +69,10 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="min-h-screen flex">
       <div className="w-1/5 bg-white p-4 flex flex-col">
         <button
-          className="mb-4 text-black p-2 rounded bg-gray-200 hover:bg-gray-400 hover:scale-105"
+          className="mb-4 text-black p-2 rounded hover:scale-105"
           onClick={handleNewDocument}
         >
           New Document

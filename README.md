@@ -6,7 +6,9 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 
 <!-- - [ ] Address performance concerns: Optimize dynamic updating to handle large content more efficiently.
 Deferred -->
+
 - [ ] Implement subpages: Convert categories into subpages (e.g., `/page/1`) instead of rendering directly on the main page.
+- [ ] TreeNode Ugly and Buggy
 <!-- - [ ] Add Renameing
 Deferred -->
 - [x] Improve Layout: Page Too Ugly
@@ -17,7 +19,6 @@ Deferred -->
 Deferred -->
 - [x] Support LaTeX input: Implement rendering of LaTeX equations.
 - [x] Improve image placement: Ensure images are inserted at the cursor position, not at the end of the page.
-
 
 ## Release v0.1
 

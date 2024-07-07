@@ -17,54 +17,45 @@ const TreeNodeComponent: React.FC<TreeNodeProps> = ({ node, path, expandedNodes,
 
   if (Object.keys(node.children).length === 0) {
     return (
-      <li className="my-1">
-<div 
-  className={`
-    ${isSelected ? "bg-gray-200" : "bg-transparent"}
-    hover:bg-gray-400
-    p-2 rounded flex justify-between items-center cursor-pointer
-  `}
-  onClick={handleSelect}
->          <span title={node.name} className="truncate">{node.name}</span>
-          <button onClick={handleDelete} title="Delete" className="ml-2 text-gray-600 hover:text-red-500">
-            <span>&#x1F5D1;</span>
-          </button>
-        </div>
+      <li className={`hover:bg-gray-100 ${isSelected ? "bg-gray-200" : ""}`} onClick={handleSelect}>
+        <span title={node.name}>{node.name}</span>
+        <button onClick={handleDelete} title="Delete">
+          <span>&#x1F5D1;</span>
+        </button>
       </li>
     );
-  }
-
-  return (
-    <li className="my-1">
-      <div
-        className="p-2 rounded flex items-center cursor-pointer hover:bg-gray-100"
-        onClick={(e) => {
-          handleSelect();
-          toggleExpand(e);
-        }}
-      >
-        <span className="mr-2">{isExpanded ? "▼" : "►"}</span>
-        <span title={node.name} className="truncate">{node.name}</span>
-      </div>
-      {isExpanded && (
-        <ul className="pl-4 mt-1">
-          {Object.entries(node.children).map(([key, childNode]) => (
-            <TreeNodeComponent
-              key={key}
-              node={childNode}
-              path={currentPath}
-              expandedNodes={expandedNodes}
-              setExpandedNodes={setExpandedNodes}
-              selectedItem={selectedItem}
-              setSelectedItem={setSelectedItem}
-              onSelectDocument={onSelectDocument}
-              onDeleteDocument={onDeleteDocument}
-            />
-          ))}
-        </ul>
-      )}
-    </li>
-  );
+  } else
+    return (
+      <li className="p-2">
+        <div
+          className="hover:bg-gray-200"
+          onClick={(e) => {
+            handleSelect();
+            toggleExpand(e);
+          }}
+        >
+          {isExpanded ? "▼" : "►"}
+          <span title={node.name}>{node.name}</span>
+        </div>
+        {isExpanded && (
+          <ul className="px-4">
+            {Object.entries(node.children).map(([key, childNode]) => (
+              <TreeNodeComponent
+                key={key}
+                node={childNode}
+                path={currentPath}
+                expandedNodes={expandedNodes}
+                setExpandedNodes={setExpandedNodes}
+                selectedItem={selectedItem}
+                setSelectedItem={setSelectedItem}
+                onSelectDocument={onSelectDocument}
+                onDeleteDocument={onDeleteDocument}
+              />
+            ))}
+          </ul>
+        )}
+      </li>
+    );
 };
 
 export default TreeNodeComponent;
