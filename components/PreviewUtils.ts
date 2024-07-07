@@ -3,6 +3,7 @@ export const exportToHTML = async (previewRef: React.RefObject<HTMLDivElement>) 
       const htmlContent = `
           ${previewRef.current.innerHTML}
       `;
+      console.log(previewRef.current.innerHTML)
   
       try {
         await fetch("/api/temp", {

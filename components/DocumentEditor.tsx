@@ -19,7 +19,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ document, onChange, isM
   if (!document) return null;
 
   return (
-    <div className={`flex flex-col bg-gray-100 p-6 rounded-lg shadow-md ${!isMobile ? 'min-h-screen' : 'min-h-[600px]'}`}>
+    <div className={`flex flex-col bg-white rounded-lg shadow-md ${!isMobile ? 'min-h-screen' : 'min-h-[600px]'}`}>
       <EditorHeader document={document} onChange={onChange} />
       <EditorBody document={document} onChange={onChange} onPaste={handlePaste} />
       <EditorFooter

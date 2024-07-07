@@ -7,20 +7,26 @@ interface EditorHeaderProps {
 }
 
 const EditorHeader: React.FC<EditorHeaderProps> = ({ document, onChange }) => (
-  <div className="mb-6 flex space-x-4">
-    <input
-      type="date"
-      className="w-1/2 p-3 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 transition"
-      value={document.date || ""}
-      onChange={(e) => onChange("date", e.target.value)}
-    />
-    <input
-      type="text"
-      className="w-1/2 p-3 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 transition"
-      value={document.type || ""}
-      onChange={(e) => onChange("type", e.target.value)}
-      placeholder="Type (tag)"
-    />
+  <div className="mt-4 mb-8 flex space-x-6">
+    <div className="w-1/2">
+      <input
+        id="date"
+        type="date"
+        className="w-full p-3 rounded-lg focus:border-transparent focus:outline-none transition duration-200 ease-in-out"
+        value={document.date || ""}
+        onChange={(e) => onChange("date", e.target.value)}
+      />
+    </div>
+    <div className="w-1/2">
+      <input
+        id="type"
+        type="text"
+        className="w-full p-3 rounded-lg focus:border-transparent focus:outline-none transition duration-200 ease-in-out"
+        value={document.type || ""}
+        onChange={(e) => onChange("type", e.target.value)}
+        placeholder="Enter document type"
+      />
+    </div>
   </div>
 );
 

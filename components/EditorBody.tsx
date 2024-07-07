@@ -18,7 +18,7 @@ const EditorBody: React.FC<EditorBodyProps> = ({ document, onChange, onPaste }) 
   return (
     <textarea
       ref={textareaRef}
-      className="flex-grow p-4 bg-white rounded-md resize-none focus:outline-none transition"
+      className="flex-grow p-6 bg-white rounded-md resize-none focus:outline-none transition"
       value={document.body || ""}
       onChange={(e) => onChange("body", e.target.value)}
       onPaste={handlePaste}

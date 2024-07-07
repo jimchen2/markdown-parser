@@ -22,8 +22,8 @@ const DocumentTree: React.FC<DocumentTreeProps> = ({
   const tree = buildTree(documents);
 
   return (
-    <div className="bg-white p-2 rounded-lg shadow-md max-h-[600px] overflow-y-auto">
-      <ul className="font-normal">
+    <div className="max-h-[500px] overflow-y-auto">
+      <ul>
         {Object.entries(tree.children).map(([key, node]) => (
           <TreeNodeComponent
             key={key}
