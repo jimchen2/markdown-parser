@@ -24,7 +24,7 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 ## Release v0.1
 
 [![GitHub release](https://img.shields.io/github/v/release/jimchen2/markdown-parser?include_prereleases&logo=github)](https://github.com/jimchen2/markdown-parser/releases/tag/v0.1)
-[![Docker Image](https://hub.docker.com/layers/jimchen2/markdown-parser/v0.1/images/sha256-9a3f95ce1323a4b617a1980749997882c01f7bd89871830f4007228787df2af8)
+[![Docker Image](https://img.shields.io/badge/Docker-jimchen2%2Fmarkdown--parser-blue?logo=docker)](https://hub.docker.com/layers/jimchen2/markdown-parser/v0.1/images/sha256-9a3f95ce1323a4b617a1980749997882c01f7bd89871830f4007228787df2af8)
 
 ## Install
 
