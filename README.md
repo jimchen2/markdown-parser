@@ -9,16 +9,15 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 
 ## Improvements ToDo
 
-1. Address performance concerns: Optimize dynamic updating to handle large content more efficiently.
-2. Implement subpages: Convert categories into subpages (e.g., `/page/1`) instead of rendering directly on the main page.
-3. Enhance code formatting: Add syntax highlighting and a copy button for code blocks in HTML output.
-4. Implement S3 backup: Add option to backup MongoDB data to S3, similar to snapshots for full recovery.
-5. Support video input: Allow users to embed video content.
-6. Introduce private notes: Implement a three-tier password system (public view, private view, admin) for different access levels.
-7. Enable file input: Allow users to upload and embed various file types.
-8. Support LaTeX input: Implement rendering of LaTeX equations.
-9. Improve image placement: Ensure images are inserted at the cursor position, not at the end of the page.
-10. Use a dedicated S3 bucket: Set up a separate bucket for this project to prevent overwriting and conflicts with the public S3 bucket.
+- [ ] Address performance concerns: Optimize dynamic updating to handle large content more efficiently.
+- [ ] Implement subpages: Convert categories into subpages (e.g., `/page/1`) instead of rendering directly on the main page.
+- [ ] Improve Layout: Page Too Ugly
+- [ ] Enhance code formatting: Add syntax highlighting and a copy button for code blocks in HTML output.
+- [ ] Export Data(note: privacy and authorization).
+- [x] Support video input: Allow users to embed video content.
+- [ ] Introduce private notes: Implement a three-tier password system (public view, private view, admin) for different access levels.
+- [x] Support LaTeX input: Implement rendering of LaTeX equations.
+- [x] Improve image placement: Ensure images are inserted at the cursor position, not at the end of the page.
 
 ## Install
 

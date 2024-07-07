@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { DocumentType } from "../types";
 
 const useImageUpload = (
@@ -29,13 +29,15 @@ const useImageUpload = (
     return imageUrl;
   };
 
-  const handleImageUpload = async (file: File) => {
+  const handleImageUpload = async (file: File, cursorPosition: number) => {
     try {
       setIsUploading(true);
       const imageUrl = await uploadImage(file);
       const imageMarkdown = `![Image](${imageUrl})`;
       const newBody = document?.body
-        ? `${document.body}\n${imageMarkdown}`
+        ? document.body.slice(0, cursorPosition) +
+          imageMarkdown +
+          document.body.slice(cursorPosition)
         : imageMarkdown;
       onChange("body", newBody);
     } catch (error) {
@@ -46,22 +48,19 @@ const useImageUpload = (
     }
   };
 
-  const handlePaste = useCallback(
-    async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
-      const items = e.clipboardData.items;
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf("image") !== -1) {
-          e.preventDefault();
-          const blob = items[i].getAsFile();
-          if (blob) {
-            await handleImageUpload(blob);
-          }
-          break;
+  const handlePaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>, cursorPosition: number) => {
+    const items = e.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf("image") !== -1) {
+        e.preventDefault();
+        const blob = items[i].getAsFile();
+        if (blob) {
+          await handleImageUpload(blob, cursorPosition);
         }
+        break;
       }
-    },
-    [document, onChange]
-  );
+    }
+  };
 
   return { isUploading, handleImageUpload, handlePaste };
 };

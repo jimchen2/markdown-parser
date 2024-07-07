@@ -13,8 +13,8 @@ export function withAuth(handler: (req: NextApiRequest, res: NextApiResponse) =>
       return handler(req, res);
     }
 
-    // For GET and POST requests
-    if (method === 'GET' || method === 'POST') {
+    // For GET requests
+    if (method === 'GET') {
       // If there's no view key, allow all GET and POST requests
       if (!viewKey) {
         return handler(req, res);
