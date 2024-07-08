@@ -14,6 +14,7 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 - [x] Customize Fonts
 - [x] Change New Document function as the MongoDB Model changed
 - [x] Add Renaming
+- [ ] Fix Type Bug
 
 ## Release v0.2
 
