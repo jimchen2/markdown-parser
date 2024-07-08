@@ -8,6 +8,7 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 - [ ] Address performance concerns: Optimize dynamic updating to handle large content more efficiently.
 - [ ] Enhance code formatting: Add syntax highlighting and a copy button for code blocks in HTML output.
 - [ ] Add Page Redirect for subroutes
+- [ ] Fix the indent Issues on the sidebar
 
 ## Release v0.3
 
