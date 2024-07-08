@@ -8,7 +8,7 @@ export async function fetchDocumentMetadata() {
   }
 }
 
-export async function fetchDocument(id: string) {
+export async function fetchDocument(id) {
   const response = await fetch(`/api/getdocuments?id=${id}`);
   if (response.ok) {
     const result = await response.json();
@@ -18,6 +18,7 @@ export async function fetchDocument(id: string) {
 }
 
 export async function saveDocument(doc: DocumentType) {
+  console.log("Saving document:", doc);
   const response = await fetch(`/api/documents/${doc._id}`, {
     method: "PUT",
     headers: {

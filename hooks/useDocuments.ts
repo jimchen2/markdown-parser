@@ -7,7 +7,7 @@ const defaultDocument: DocumentType = {
   _id: "",
   title: "Untitled",
   body: "",
-  date: new Date().toISOString().split("T")[0],
+  date: new Date(),
   type: "",
 };
 
@@ -33,7 +33,7 @@ export function useDocuments() {
 
   const debouncedSave = debounce(async (doc: DocumentType) => {
     if (JSON.stringify(doc) === JSON.stringify(lastSavedVersionRef.current)) {
-      return; // No changes, don't save
+      return;
     }
 
     try {
@@ -92,7 +92,7 @@ export function useDocuments() {
     return () => {
       debouncedSave.cancel();
     };
-  }, [debouncedSave]);
+  }, []);
 
   return {
     documents,
