@@ -13,12 +13,29 @@ const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
   const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const renderLatex = (text: string) => {
-      return text.replace(/\$\$(.*?)\$\$|\$(.*?)\$/g, (match, block, inline) => {
+    const renderLatex = (html: string) => {
+      const codeBlocks: string[] = [];
+      
+      // Replace <pre><code> blocks and inline <code> with placeholders
+      const htmlWithoutCode = html.replace(/(<pre><code>[\s\S]*?<\/code><\/pre>)|(<code>[^<]+<\/code>)/g, (match) => {
+        codeBlocks.push(match);
+        return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
+      });
+
+      // Process LaTeX in the remaining text
+      const processedHtml = htmlWithoutCode.replace(/\$\$(.*?)\$\$|\$(.*?)\$/g, (match, block, inline) => {
         const latex = block || inline;
         const displayMode = !!block;
-        return katex.renderToString(latex, { displayMode });
+        try {
+          return katex.renderToString(latex, { displayMode });
+        } catch (error) {
+          console.error("KaTeX error:", error);
+          return match; // Return original string if KaTeX fails
+        }
       });
+
+      // Restore code blocks
+      return processedHtml.replace(/__CODE_BLOCK_(\d+)__/g, (_, index) => codeBlocks[parseInt(index)]);
     };
 
     const renderMarkdown = () => {
