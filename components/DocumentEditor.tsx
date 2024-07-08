@@ -24,7 +24,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ document, onChange, isM
   };
 
   return (
-    <div className={`flex flex-col bg-white rounded-lg shadow-md ${!isMobile ? "min-h-screen" : "min-h-[600px]"}`}>
+    <div className={`flex flex-col bg-white rounded-lg shadow-md ${!isMobile ? "min-h-screen" : "min-h-screen"}`}>
       <EditorHeader document={document} onChange={onChange} />
       <EditorBody ref={editorBodyRef} document={document} onChange={onChange} onPaste={handlePaste} />
       <EditorFooter wordCount={wordCount} charCount={charCount} isUploading={isUploading} onUpload={(file) => handleImageUpload(file, getCursorPosition())} />

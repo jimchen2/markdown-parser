@@ -33,9 +33,9 @@ const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
   }, [markdown]);
 
   return (
-    <div className="bg-gray-50 rounded-lg shadow-lg overflow-hidden font-sans">
+    <div className="bg-gray-50 rounded-lg shadow-lg overflow-hidden font-roboto">
       <div className="bg-gray-100 p-4 flex justify-between items-center border-b border-gray-200">
-        <h2 className="text-2xl font-semibold text-gray-800">{title || 'Preview'}</h2>
+        <h2 className="text-2xl font-semibold font-display text-gray-800">{title || 'Preview'}</h2>
         <button
           onClick={() => exportToHTML(previewRef)}
           className="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"

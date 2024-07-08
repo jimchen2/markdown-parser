@@ -6,13 +6,14 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 
 - [ ] Remember where you left out in cookies
 - [ ] Address performance concerns: Optimize dynamic updating to handle large content more efficiently.
-- [x] TreeNode Ugly and Buggy
 - [ ] Enhance code formatting: Add syntax highlighting and a copy button for code blocks in HTML output.
+- [ ] Add Page Redirect for subroutes
+- [x] TreeNode Ugly and Buggy
 - [x] Introduce private notes: Implement a three-tier password system (public view, private view, admin) for different access levels.
 - [x] Instead of editing types edit the access in the edit header
+- [x] Customize Fonts
 - [ ] Change New Document function as the MongoDB Model changed
-- [ ] Customize Fonts
-- [ ] Add Page Redirect for subroutes
+- [ ] Add Renaming
 
 ## Release v0.2
 

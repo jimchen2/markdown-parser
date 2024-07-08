@@ -16,7 +16,7 @@ const EditorBody = forwardRef<HTMLTextAreaElement, EditorBodyProps>(({ document,
   return (
     <textarea
       ref={ref}
-      className="flex-grow p-6 font-sans bg-white rounded-md resize-none focus:outline-none transition"
+      className="flex-grow p-6 font-roboto bg-white rounded-md resize-none focus:outline-none transition"
       value={document.body || ""}
       onChange={(e) => onChange("body", e.target.value)}
       onPaste={handlePaste}

@@ -5,6 +5,7 @@ import Preview from "../components/Preview";
 import { useDocuments } from "../hooks/useDocuments";
 import { setCookie } from "../components/cookie";
 import CookieModal from "../components/CookieModal";
+import MobileView from "../mobile/MobileView";
 
 export default function Home() {
   const { selectedDoc, fetchDocument, handleDocumentChange, handleNewDocument } = useDocuments();
@@ -17,7 +18,7 @@ export default function Home() {
       setIsMobile(window.innerWidth < 768);
     };
 
-    checkMobile();  
+    checkMobile();
     window.addEventListener("resize", checkMobile);
 
     return () => window.removeEventListener("resize", checkMobile);
@@ -33,6 +34,20 @@ export default function Home() {
     window.location.reload();
   };
 
+  if (isMobile) {
+    return (
+      <MobileView
+        selectedDoc={selectedDoc}
+        fetchDocument={fetchDocument}
+        handleDocumentChange={handleDocumentChange}
+        handleNewDocument={handleNewDocument}
+        handleCookieButton={handleCookieButton}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleSetCookie={handleSetCookie}
+      />
+    );
+  }
   return (
     <div className="min-h-screen flex">
       <div className="w-1/5 bg-white p-4 flex flex-col">
