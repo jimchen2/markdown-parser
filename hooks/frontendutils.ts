@@ -8,13 +8,13 @@ export async function fetchDocumentMetadata() {
   }
 }
 
-export async function fetchDocument(id: string) {
+export async function fetchDocument(id) {
   const response = await fetch(`/api/getdocuments?id=${id}`);
   if (response.ok) {
     const result = await response.json();
     return result;
   }
-  throw new Error('Failed to fetch document');
+  throw new Error("Failed to fetch document");
 }
 
 export async function saveDocument(doc: DocumentType) {

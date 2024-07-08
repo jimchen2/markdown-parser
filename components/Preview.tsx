@@ -33,7 +33,7 @@ const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
   }, [markdown]);
 
   return (
-    <div className="bg-gray-50 rounded-lg shadow-lg overflow-hidden">
+    <div className="bg-gray-50 rounded-lg shadow-lg overflow-hidden font-sans">
       <div className="bg-gray-100 p-4 flex justify-between items-center border-b border-gray-200">
         <h2 className="text-2xl font-semibold text-gray-800">{title || 'Preview'}</h2>
         <button

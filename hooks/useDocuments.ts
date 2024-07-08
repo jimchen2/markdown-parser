@@ -17,7 +17,7 @@ export function useDocuments() {
   const [isLoading, setIsLoading] = useState(false);
   const lastSavedVersionRef = useRef<DocumentType | null>(null);
 
-  const fetchDocumentById = async (id: string) => {
+  const fetchDocumentById = async (id: string = "668aea98c6a08bd0675c78ef") => {
     if (isLoading) return;
     setIsLoading(true);
     try {
@@ -45,7 +45,7 @@ export function useDocuments() {
     }
   }, 1000);
 
-  const handleDocumentChange = (field: string, value: string) => {
+  const handleDocumentChange = (field: string, value: string | number | Date) => {
     if (selectedDoc) {
       const updatedDoc = { ...selectedDoc, [field]: value };
       setSelectedDoc(updatedDoc);
@@ -83,6 +83,10 @@ export function useDocuments() {
       }
     }
   };
+
+  useEffect(() => {
+    fetchDocumentById();
+  }, []);
 
   useEffect(() => {
     return () => {

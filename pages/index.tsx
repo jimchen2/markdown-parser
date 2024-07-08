@@ -4,19 +4,10 @@ import DocumentEditor from "../components/DocumentEditor";
 import Preview from "../components/Preview";
 import { useDocuments } from "../hooks/useDocuments";
 import { setCookie } from "../components/cookie";
-import { DocumentType } from "../types";
 import CookieModal from "../components/CookieModal";
 
-const defaultDocument: DocumentType = {
-  _id: "",
-  title: "Untitled",
-  body: "",
-  date: new Date().toISOString().split("T")[0],
-  type: "",
-};
-
 export default function Home() {
-  const { documents, selectedDoc, isLoading, fetchDocument, handleDocumentChange, handleNewDocument, handleDeleteDocument } = useDocuments();
+  const { selectedDoc, fetchDocument, handleDocumentChange, handleNewDocument } = useDocuments();
 
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +17,7 @@ export default function Home() {
       setIsMobile(window.innerWidth < 768);
     };
 
-    checkMobile();
+    checkMobile();  
     window.addEventListener("resize", checkMobile);
 
     return () => window.removeEventListener("resize", checkMobile);
@@ -49,19 +40,16 @@ export default function Home() {
           New Document
         </button>
         <div className="w-full">
-        <div className="w-full">
-          <DocumentTree 
-            mobile={isMobile} 
-            onSelectDocumentId={fetchDocument}
-          />
-        </div>
+          <div className="w-full">
+            <DocumentTree mobile={isMobile} onSelectDocumentId={fetchDocument} />
+          </div>
         </div>
       </div>
       <div className="w-2/5">
         <DocumentEditor document={selectedDoc} onChange={handleDocumentChange} isMobile={isMobile} />
       </div>
       <div className="w-2/5">
-        <Preview markdown={selectedDoc?.body || ""} title={selectedDoc?.title || "Untitled"} isMobile={isMobile} />
+        <Preview markdown={selectedDoc?.body || ""} title={selectedDoc?.title || "Untitled"} />
       </div>
       <div className="absolute bottom-4 left-4 flex flex-col items-center">
         <button

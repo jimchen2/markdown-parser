@@ -8,7 +8,7 @@ import EditorFooter from "./EditorFooter";
 
 interface DocumentEditorProps {
   document: DocumentType | null;
-  onChange: (field: string, value: string) => void;
+  onChange: (field: string, value: string | number | Date) => void;
   isMobile: boolean;
 }
 
