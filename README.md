@@ -12,7 +12,8 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 - [x] Introduce private notes: Implement a three-tier password system (public view, private view, admin) for different access levels.
 - [x] Instead of editing types edit the access in the edit header
 - [x] Customize Fonts
-- [ ] Change New Document function as the MongoDB Model changed
+- [x] Change New Document function as the MongoDB Model changed
+- [ ] Put Deleting Option in Single Docs
 - [ ] Add Renaming
 
 ## Release v0.2

@@ -17,7 +17,7 @@ export function useDocuments() {
   const [isLoading, setIsLoading] = useState(false);
   const lastSavedVersionRef = useRef<DocumentType | null>(null);
 
-  const fetchDocumentById = async (id: string = "668aea98c6a08bd0675c78ef") => {
+  const fetchDocumentById = async (id: string) => {
     if (isLoading) return;
     setIsLoading(true);
     try {
@@ -52,18 +52,22 @@ export function useDocuments() {
       debouncedSave(updatedDoc);
     }
   };
-
   const handleNewDocument = async () => {
     const title = prompt("Enter a title for the new document:");
     if (!title) return;
 
+    const type = prompt("Enter a type for the new document:");
+    if (!type) return;
+
     try {
-      const newDoc = await createDocument(title);
+      const newDoc = await createDocument(title, type);
+      // Update local state
       setDocuments((prevDocuments) => [...prevDocuments, { _id: newDoc._id, title: newDoc.title }]);
       setSelectedDoc(newDoc);
       lastSavedVersionRef.current = newDoc;
+      window.location.reload();
     } catch (error) {
-      alert(error);
+      alert("Error creating document: " + error);
     }
   };
 

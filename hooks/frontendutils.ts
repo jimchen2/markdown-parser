@@ -33,17 +33,15 @@ export async function saveDocument(doc: DocumentType) {
   throw new Error("Error saving document");
 }
 
-export async function createDocument(title: string) {
-  const response = await fetch("/api/documents", {
+export async function createDocument(title: string, type: string) {
+  const response = await fetch("/api/newDocuments", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       title,
-      date: new Date().toISOString().split("T")[0],
-      type: "",
-      body: "",
+      type,
     }),
   });
 

@@ -6,7 +6,7 @@ const DocumentSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide a title for this document.'],
     },
-      date: {
+    date: {
         type: Date,
         default: Date.now,
         required: true
