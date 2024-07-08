@@ -71,32 +71,28 @@ export function useDocuments() {
     }
   };
 
-  const handleDeleteDocument = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this document?")) {
-      try {
-        await deleteDocument(id);
-        setDocuments((prevDocuments) => prevDocuments.filter((doc) => doc._id !== id));
+  const handleDeleteDocument = async () => {
+    const title = prompt("Enter the title of the document you want to delete:");
+    if (!title) return;
 
-        if (selectedDoc._id === id) {
-          setSelectedDoc(defaultDocument);
-          lastSavedVersionRef.current = null;
-        }
+    if (window.confirm(`Are you sure you want to delete the document "${title}"?`)) {
+      try {
+        await deleteDocument(title);
+        alert(`Document "${title}" has been deleted.`);
+        window.location.reload();
       } catch (error) {
         console.error("Error deleting document:", error);
-        alert(error);
+        alert(`Error deleting document: ${error}`);
       }
     }
   };
 
-  useEffect(() => {
-    fetchDocumentById();
-  }, []);
 
   useEffect(() => {
     return () => {
       debouncedSave.cancel();
     };
-  }, []);
+  }, [debouncedSave]);
 
   return {
     documents,

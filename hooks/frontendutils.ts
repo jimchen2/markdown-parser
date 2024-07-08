@@ -8,7 +8,7 @@ export async function fetchDocumentMetadata() {
   }
 }
 
-export async function fetchDocument(id) {
+export async function fetchDocument(id: string) {
   const response = await fetch(`/api/getdocuments?id=${id}`);
   if (response.ok) {
     const result = await response.json();
@@ -51,13 +51,18 @@ export async function createDocument(title: string, type: string) {
   }
   throw new Error(response.statusText);
 }
-
-export async function deleteDocument(id: string) {
-  const response = await fetch(`/api/documents/${id}`, {
+export async function deleteDocument(title: string) {
+  const response = await fetch('/api/deleteDocuments', {
     method: "DELETE",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title }),
   });
 
   if (!response.ok) {
     throw new Error(response.statusText);
   }
+
+  return response.json();
 }

@@ -4,7 +4,7 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 
 ## Improvements ToDo
 
-- [ ] Remember where you left out in cookies
+- [ ] Remember where the document left out in cookies
 - [ ] Address performance concerns: Optimize dynamic updating to handle large content more efficiently.
 - [ ] Enhance code formatting: Add syntax highlighting and a copy button for code blocks in HTML output.
 - [ ] Add Page Redirect for subroutes
@@ -13,8 +13,7 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 - [x] Instead of editing types edit the access in the edit header
 - [x] Customize Fonts
 - [x] Change New Document function as the MongoDB Model changed
-- [ ] Put Deleting Option in Single Docs
-- [ ] Add Renaming
+- [x] Add Renaming
 
 ## Release v0.2
 

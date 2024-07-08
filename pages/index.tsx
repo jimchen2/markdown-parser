@@ -8,7 +8,7 @@ import CookieModal from "../components/CookieModal";
 import MobileView from "../mobile/MobileView";
 
 export default function Home() {
-  const { selectedDoc, fetchDocument, handleDocumentChange, handleNewDocument } = useDocuments();
+  const { selectedDoc, handleDeleteDocument, fetchDocument, handleDocumentChange, handleNewDocument } = useDocuments();
 
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,6 +54,10 @@ export default function Home() {
         <button className="mb-4 text-black p-2 rounded hover:scale-105" onClick={handleNewDocument}>
           New Document
         </button>
+        <button className="mb-4 text-black p-2 rounded hover:scale-105" onClick={handleDeleteDocument}>
+          Delete Document
+        </button>
+
         <div className="w-full">
           <div className="w-full">
             <DocumentTree mobile={isMobile} onSelectDocumentId={fetchDocument} />
@@ -75,7 +79,6 @@ export default function Home() {
             🍪
           </span>
         </button>
-        <span className="mt-2 text-sm font-medium text-gray-600">Set Cookie</span>
       </div>
       <CookieModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSetCookie={handleSetCookie} />
     </div>

@@ -21,7 +21,6 @@ const CookieModal: React.FC<CookieModalProps> = ({ isOpen, onClose, onSetCookie 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg">
-        <h2 className="text-xl font-bold mb-4">Set Cookie</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -42,7 +41,6 @@ const CookieModal: React.FC<CookieModalProps> = ({ isOpen, onClose, onSetCookie 
               type="submit"
               className="px-4 py-2 bg-gray-500 text-white rounded"
             >
-              Set Cookie
             </button>
           </div>
         </form>
