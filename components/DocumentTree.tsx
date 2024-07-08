@@ -23,7 +23,7 @@ interface DocumentTreeProps {
   onSelectDocumentId: (id: string) => void;
 }
 
-const DocumentTree: React.FC<DocumentTreeProps> = React.memo(({ mobile, newlines = 4, fontSize = "text-2xl", onSelectDocumentId }) => {
+const DocumentTree: React.FC<DocumentTreeProps> = React.memo(({ mobile, newlines = 2, fontSize = "text-2xl", onSelectDocumentId }) => {
   const [DocumentTrees, setDocumentTrees] = useState<DocumentType[]>([]);
   const [openDropdowns, setOpenDropdowns] = useState<{
     [key: string]: boolean;
@@ -113,6 +113,8 @@ const DocumentTree: React.FC<DocumentTreeProps> = React.memo(({ mobile, newlines
             </li>
           ))}
           {renderNewlines()}
+          <br/>
+          <br/>
         </ul>
       </div>
     </div>

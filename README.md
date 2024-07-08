@@ -2,19 +2,22 @@
 
 A simple, clean note-taking and markdown converting tool built with NextJS, featuring a backend with MongoDB & S3 Bucket for media storage. Web-based with PWA support for mobile.
 
-## Improvements ToDo
+## Future (Hopeful) Features
 
 - [ ] Remember where the document left out in cookies
 - [ ] Address performance concerns: Optimize dynamic updating to handle large content more efficiently.
 - [ ] Enhance code formatting: Add syntax highlighting and a copy button for code blocks in HTML output.
 - [ ] Add Page Redirect for subroutes
+
+## Release v0.3
+
 - [x] TreeNode Ugly and Buggy
 - [x] Introduce private notes: Implement a three-tier password system (public view, private view, admin) for different access levels.
 - [x] Instead of editing types edit the access in the edit header
 - [x] Customize Fonts
 - [x] Change New Document function as the MongoDB Model changed
 - [x] Add Renaming
-- [ ] Fix Type Bug
+- [x] Fix Type Bug (useeffect dependency Bug causing the bounce to not run)
 
 ## Release v0.2
 
