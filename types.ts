@@ -1,10 +1,8 @@
-export interface DocumentMetadata {
+export interface DocumentType {
   _id: string;
   title: string;
-}
-
-export interface DocumentType extends DocumentMetadata {
+  body: string;
   date: string;
   type: string;
-  body: string;
+  access?: number;
 }

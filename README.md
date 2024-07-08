@@ -4,10 +4,9 @@ A simple, clean note-taking and markdown converting tool built with NextJS, feat
 
 ## Improvements ToDo
 
+- [ ] Remember where you left out in cookies
 - [ ] Address performance concerns: Optimize dynamic updating to handle large content more efficiently.
-- [ ] Implement subpages: Convert categories into subpages (e.g., `/page/1`) instead of rendering directly on the main page.
-- [ ] TreeNode Ugly and Buggy
-- [ ] Add Renameing
+- [x] TreeNode Ugly and Buggy
 - [ ] Enhance code formatting: Add syntax highlighting and a copy button for code blocks in HTML output.
 - [ ] Introduce private notes: Implement a three-tier password system (public view, private view, admin) for different access levels.
 

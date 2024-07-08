@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { debounce } from "lodash";
-import { DocumentType, DocumentMetadata } from "../types";
-import { fetchDocumentMetadata, fetchDocument, saveDocument, createDocument, deleteDocument } from "./frontendutils";
+import { DocumentType } from "../types";
+import { fetchDocument, saveDocument, createDocument, deleteDocument } from "./frontendutils";
 
 const defaultDocument: DocumentType = {
   _id: "",
@@ -12,14 +12,10 @@ const defaultDocument: DocumentType = {
 };
 
 export function useDocuments() {
-  const [documents, setDocuments] = useState<DocumentMetadata[]>([]);
+  const [documents, setDocuments] = useState([]);
   const [selectedDoc, setSelectedDoc] = useState<DocumentType>(defaultDocument);
   const [isLoading, setIsLoading] = useState(false);
   const lastSavedVersionRef = useRef<DocumentType | null>(null);
-
-  useEffect(() => {
-    fetchDocumentMetadata().then(setDocuments);
-  }, []);
 
   const fetchDocumentById = async (id: string) => {
     if (isLoading) return;
@@ -43,13 +39,7 @@ export function useDocuments() {
     try {
       const result = await saveDocument(doc);
       lastSavedVersionRef.current = result;
-      setDocuments((prevDocuments) =>
-        prevDocuments.map((d) =>
-          d._id === result._id
-            ? { _id: result._id, title: result.title }
-            : d
-        )
-      );
+      setDocuments((prevDocuments) => prevDocuments.map((d) => (d._id === result._id ? { _id: result._id, title: result.title } : d)));
     } catch (error) {
       console.error("Error saving document:", error);
     }
@@ -69,10 +59,7 @@ export function useDocuments() {
 
     try {
       const newDoc = await createDocument(title);
-      setDocuments((prevDocuments) => [
-        ...prevDocuments,
-        { _id: newDoc._id, title: newDoc.title },
-      ]);
+      setDocuments((prevDocuments) => [...prevDocuments, { _id: newDoc._id, title: newDoc.title }]);
       setSelectedDoc(newDoc);
       lastSavedVersionRef.current = newDoc;
     } catch (error) {
@@ -85,7 +72,7 @@ export function useDocuments() {
       try {
         await deleteDocument(id);
         setDocuments((prevDocuments) => prevDocuments.filter((doc) => doc._id !== id));
-        
+
         if (selectedDoc._id === id) {
           setSelectedDoc(defaultDocument);
           lastSavedVersionRef.current = null;

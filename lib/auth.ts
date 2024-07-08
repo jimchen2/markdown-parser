@@ -1,9 +1,10 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
 
 export function withAuth(handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const adminKey = process.env.ADMIN_KEY;
     const viewKey = process.env.VIEW_KEY;
+    const privateviewKey = process.env.PRIVATE_VIEW_KEY;
 
     const authKey = req.cookies.authKey;
     const method = req.method?.toUpperCase();
@@ -14,14 +15,14 @@ export function withAuth(handler: (req: NextApiRequest, res: NextApiResponse) =>
     }
 
     // For GET requests
-    if (method === 'GET') {
+    if (method === "GET") {
       // If there's no view key, allow all GET and POST requests
       if (!viewKey) {
         return handler(req, res);
       }
-      
+
       // If there's a view key, check for either view key or admin key
-      if (authKey === viewKey || authKey === adminKey) {
+      if (authKey === viewKey || authKey === privateviewKey || authKey === adminKey) {
         return handler(req, res);
       }
     }
@@ -31,7 +32,7 @@ export function withAuth(handler: (req: NextApiRequest, res: NextApiResponse) =>
       if (!adminKey) {
         return handler(req, res);
       }
-      
+
       // If there's an admin key, check for it
       if (authKey === adminKey) {
         return handler(req, res);
@@ -39,6 +40,6 @@ export function withAuth(handler: (req: NextApiRequest, res: NextApiResponse) =>
     }
 
     // If we've reached this point, the authentication has failed
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   };
 }

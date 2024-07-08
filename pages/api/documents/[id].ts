@@ -15,22 +15,6 @@ export default withAuth(async function handler(
   await dbConnect();
 
   switch (method) {
-    case "GET":
-      try {
-        const document = await Document.findById(id);
-        if (!document) {
-          return res
-            .status(404)
-            .json({ success: false, message: "Document not found" });
-        }
-        res.status(200).json({ success: true, data: document });
-      } catch (error) {
-        res
-          .status(400)
-          .json({ success: false, message: "Error fetching document" });
-      }
-      break;
-
     case "PUT":
       try {
         const document = await Document.findByIdAndUpdate(id, req.body, {

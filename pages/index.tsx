@@ -5,7 +5,6 @@ import Preview from "../components/Preview";
 import { useDocuments } from "../hooks/useDocuments";
 import { setCookie } from "../components/cookie";
 import { DocumentType } from "../types";
-import MobileView from "../mobile/MobileView";
 import CookieModal from "../components/CookieModal";
 
 const defaultDocument: DocumentType = {
@@ -17,15 +16,7 @@ const defaultDocument: DocumentType = {
 };
 
 export default function Home() {
-  const {
-    documents,
-    selectedDoc,
-    isLoading,
-    fetchDocument,
-    handleDocumentChange,
-    handleNewDocument,
-    handleDeleteDocument,
-  } = useDocuments();
+  const { documents, selectedDoc, isLoading, fetchDocument, handleDocumentChange, handleNewDocument, handleDeleteDocument } = useDocuments();
 
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,53 +42,26 @@ export default function Home() {
     window.location.reload();
   };
 
-  if (isMobile) {
-    return (
-      <MobileView
-        documents={documents}
-        selectedDoc={selectedDoc}
-        fetchDocument={fetchDocument}
-        handleDocumentChange={handleDocumentChange}
-        handleNewDocument={handleNewDocument}
-        handleDeleteDocument={handleDeleteDocument}
-        handleCookieButton={handleCookieButton}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        handleSetCookie={handleSetCookie}
-      />
-    );
-  }
-
   return (
     <div className="min-h-screen flex">
       <div className="w-1/5 bg-white p-4 flex flex-col">
-        <button
-          className="mb-4 text-black p-2 rounded hover:scale-105"
-          onClick={handleNewDocument}
-        >
+        <button className="mb-4 text-black p-2 rounded hover:scale-105" onClick={handleNewDocument}>
           New Document
         </button>
         <div className="w-full">
-          <DocumentTree
-            documents={documents}
-            onSelectDocument={fetchDocument}
-            onDeleteDocument={handleDeleteDocument}
+        <div className="w-full">
+          <DocumentTree 
+            mobile={isMobile} 
+            onSelectDocumentId={fetchDocument}
           />
+        </div>
         </div>
       </div>
       <div className="w-2/5">
-        <DocumentEditor
-          document={selectedDoc}
-          onChange={handleDocumentChange}
-          isMobile={isMobile}
-        />
+        <DocumentEditor document={selectedDoc} onChange={handleDocumentChange} isMobile={isMobile} />
       </div>
       <div className="w-2/5">
-        <Preview
-          markdown={selectedDoc?.body || ""}
-          title={selectedDoc?.title || "Untitled"}
-          isMobile={isMobile}
-        />
+        <Preview markdown={selectedDoc?.body || ""} title={selectedDoc?.title || "Untitled"} isMobile={isMobile} />
       </div>
       <div className="absolute bottom-4 left-4 flex flex-col items-center">
         <button
@@ -108,15 +72,9 @@ export default function Home() {
             🍪
           </span>
         </button>
-        <span className="mt-2 text-sm font-medium text-gray-600">
-          Set Cookie
-        </span>
+        <span className="mt-2 text-sm font-medium text-gray-600">Set Cookie</span>
       </div>
-      <CookieModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSetCookie={handleSetCookie}
-      />
+      <CookieModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSetCookie={handleSetCookie} />
     </div>
   );
 }
