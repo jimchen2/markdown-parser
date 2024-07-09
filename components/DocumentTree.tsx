@@ -94,7 +94,7 @@ const DocumentTree: React.FC<DocumentTreeProps> = React.memo(({ mobile, newlines
                   </h4>
                   <ChevronDownIcon className={`h-5 w-5 text-gray-800 duration-300 ease-in-out ${openDropdowns[docType.type] ? "rotate-180" : "rotate-0"}`} />
                 </div>
-                <div className={`transition-max-height duration-500 ease-in-out overflow-hidden ${openDropdowns[docType.type] ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}>
+                <div className={`transition-max-height duration-500 ease-in-out overflow-auto ${openDropdowns[docType.type] ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}>
                   <ul className="mt-2 space-y-2">
                     {docType.documents.map((doc) => (
                       <li
