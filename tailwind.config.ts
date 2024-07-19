@@ -11,6 +11,7 @@ module.exports = {
         roboto: ["Roboto", "sans-serif"],
         source: ["Source Code Pro", "monospace"],
         calibri: ["Carlito", "Calibri", "sans-serif"], // Carlito as a web-safe alternative to Calibri
+        quicksand: ["Quicksand", "sans-serif"],
       },
     },
   },
