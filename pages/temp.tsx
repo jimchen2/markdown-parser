@@ -7,11 +7,17 @@ const TempHTML: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Fetch and apply Milligram CSS
-    const link = document.createElement('link');
-    link.href = 'https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/css/foundation.min.css';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
+    // Add the existing stylesheet
+    const markedLink = document.createElement('link');
+    markedLink.href = 'https://cdn.jsdelivr.net/npm/marked@13.0.2/lib/marked.umd.min.js';
+    markedLink.rel = 'stylesheet';
+    document.head.appendChild(markedLink);
+
+    // Add your personal stylesheet
+    const personalStyleLink = document.createElement('link');
+    personalStyleLink.href = './print-styles.css'; 
+    personalStyleLink.rel = 'stylesheet';
+    document.head.appendChild(personalStyleLink);
 
     // Fetch HTML content
     fetch("/api/temp")
@@ -30,7 +36,8 @@ const TempHTML: React.FC = () => {
 
       return () => {
         clearTimeout(timer);
-        document.head.removeChild(link);
+        document.head.removeChild(markedLink);
+        document.head.removeChild(personalStyleLink); // Remove personal stylesheet on cleanup
       };
     }
   }, [isFirstLoad]);

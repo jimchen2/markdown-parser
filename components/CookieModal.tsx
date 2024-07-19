@@ -41,6 +41,7 @@ const CookieModal: React.FC<CookieModalProps> = ({ isOpen, onClose, onSetCookie 
               type="submit"
               className="px-4 py-2 bg-gray-500 text-white rounded"
             >
+              Submit
             </button>
           </div>
         </form>

@@ -1,0 +1,141 @@
+/* personal-styles.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  font-size: 32px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+h2 {
+  font-size: 26px;
+  color: #34495e;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+h3 {
+  font-size: 22px;
+  color: #7f8c8d;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 15px;
+  line-height: 1.8;
+}
+
+ul, ol {
+  font-size: 16px;
+  margin-bottom: 15px;
+  padding-left: 30px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li::before {
+  content: "•";
+  color: #3498db;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+ol {
+  counter-reset: item;
+  list-style-type: none;
+}
+
+ol li::before {
+  content: counter(item) ".";
+  counter-increment: item;
+  color: #3498db;
+  font-weight: bold;
+  display: inline-block;
+  width: 1.5em;
+  margin-left: -1.5em;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+a {
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f4f4f4;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+pre {
+  background-color: #f4f4f4;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  border: 1px solid #ddd;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+blockquote {
+  border-left: 4px solid #3498db;
+  padding: 10px 15px;
+  margin-left: 0;
+  font-style: italic;
+  color: #7f8c8d;
+  background-color: #ecf0f1;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 15px;
+  background-color: #fff;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #3498db;
+  color: #fff;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
