@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { marked } from "marked";
 import katex from "katex";
 import { exportToHTML } from "./PreviewUtils";
@@ -10,8 +10,12 @@ interface PreviewProps {
   title: string;
 }
 
+const COOLDOWN_PERIOD = 5000; // 5 seconds in milliseconds
+
 const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
   const previewRef = useRef<HTMLDivElement>(null);
+  const lastRenderTimeRef = useRef<number>(0);
+  const [, forceUpdate] = useState({});
 
   useEffect(() => {
     const renderLatex = (html: string) => {
@@ -47,7 +51,18 @@ const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
       }
     };
 
-    renderMarkdown();
+    const currentTime = Date.now();
+    if (currentTime - lastRenderTimeRef.current >= COOLDOWN_PERIOD) {
+      renderMarkdown();
+      lastRenderTimeRef.current = currentTime;
+    } else {
+      const remainingCooldown = COOLDOWN_PERIOD - (currentTime - lastRenderTimeRef.current);
+      setTimeout(() => {
+        renderMarkdown();
+        lastRenderTimeRef.current = Date.now();
+        forceUpdate({});
+      }, remainingCooldown);
+    }
   }, [markdown]);
 
   return (

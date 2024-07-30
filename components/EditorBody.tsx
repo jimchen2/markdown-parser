@@ -1,5 +1,13 @@
 import React, { forwardRef } from "react";
-import { DocumentType } from "../types";
+
+interface DocumentType {
+  _id: string;
+  title: string;
+  body: string;
+  date: Date;
+  type: string;
+  access?: number;
+}
 
 interface EditorBodyProps {
   document: DocumentType;

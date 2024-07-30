@@ -1,10 +1,18 @@
 import React, { useRef } from "react";
-import { DocumentType } from "../types";
 import useDocumentStats from "./useDocumentStats";
 import useImageUpload from "./useImageUpload";
 import EditorHeader from "./EditorHeader";
 import EditorBody from "./EditorBody";
 import EditorFooter from "./EditorFooter";
+
+interface DocumentType {
+  _id: string;
+  title: string;
+  body: string;
+  date: Date;
+  type: string;
+  access?: number;
+}
 
 interface DocumentEditorProps {
   document: DocumentType | null;
