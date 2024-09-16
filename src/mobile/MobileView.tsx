@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import DocumentTree from "../components/DocumentTree";
 import DocumentEditor from "../components/DocumentEditor";
 import Preview from "../components/Preview";
-import { DocumentType } from "../types";
 import CookieModal from "../components/CookieModal";
 
 interface MobileViewProps {

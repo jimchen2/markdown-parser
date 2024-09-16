@@ -1,5 +1,8 @@
+"use client"
 import { useEffect, useState, useRef } from "react";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
+import { marked } from 'marked';
+import styles from '../../components/renderhtml.module.css';
 
 const TempHTML: React.FC = () => {
   const [htmlContent, setHtmlContent] = useState<string>("");
@@ -7,24 +10,13 @@ const TempHTML: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Add the existing stylesheet
-    const markedLink = document.createElement('link');
-    markedLink.href = 'https://cdn.jsdelivr.net/npm/marked@13.0.2/lib/marked.umd.min.js';
-    markedLink.rel = 'stylesheet';
-    document.head.appendChild(markedLink);
-
-    // Add your personal stylesheet
-    const personalStyleLink = document.createElement('link');
-    personalStyleLink.href = './print-styles.css'; 
-    personalStyleLink.rel = 'stylesheet';
-    document.head.appendChild(personalStyleLink);
-
     // Fetch HTML content
     fetch("/api/temp")
       .then((response) => response.json())
       .then((data) => {
         const sanitizedContent = DOMPurify.sanitize(data.htmlContent);
-        setHtmlContent(sanitizedContent);
+        const parsedContent = marked(sanitizedContent);
+        setHtmlContent(parsedContent);
       })
       .catch((error) => console.error("Error fetching HTML content:", error));
 
@@ -36,8 +28,6 @@ const TempHTML: React.FC = () => {
 
       return () => {
         clearTimeout(timer);
-        document.head.removeChild(markedLink);
-        document.head.removeChild(personalStyleLink); // Remove personal stylesheet on cleanup
       };
     }
   }, [isFirstLoad]);
@@ -50,7 +40,7 @@ const TempHTML: React.FC = () => {
 
   return (
     <div className="container">
-      <div ref={containerRef} />
+      <div className={styles.scopedStyles} ref={containerRef} />
     </div>
   );
 };

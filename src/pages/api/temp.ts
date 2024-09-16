@@ -8,12 +8,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     try {
       const { htmlContent } = req.body;
-      
-      // Remove old content
+      const trimmedHtmlContent = htmlContent.trim().replace(/\n/g, '');
+            
       await TempContent.deleteMany({});
       
       // Store new content
-      await TempContent.create({ content: htmlContent });
+      await TempContent.create({ content: trimmedHtmlContent });
       
       res.status(200).json({ message: 'HTML content stored successfully' });
     } catch (error) {
