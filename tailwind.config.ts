@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}", "./app/**/*.{js,ts,jsx,tsx}"],
+  content: ["./src/pages/**/*.{js,ts,jsx,tsx}", "./src/components/**/*.{js,ts,jsx,tsx}", "./src/app/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
@@ -11,6 +11,7 @@ module.exports = {
         roboto: ["Roboto", "sans-serif"],
         source: ["Source Code Pro", "monospace"],
         calibri: ["Carlito", "Calibri", "sans-serif"], // Carlito as a web-safe alternative to Calibri
+        quicksand: ["Quicksand", "sans-serif"],
       },
     },
   },

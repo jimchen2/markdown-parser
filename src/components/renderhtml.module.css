@@ -1,0 +1,93 @@
+.scopedStyles {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 800px;
+  background-color: #f9f9f9;
+}
+
+.scopedStyles h1 {
+  font-size: 32px;
+  color: #2c3e50;
+}
+
+.scopedStyles h2 {
+  font-size: 26px;
+  color: #34495e;
+}
+
+.scopedStyles h3 {
+  font-size: 22px;
+  color: #7f8c8d;
+}
+
+.scopedStyles p {
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.scopedStyles ul,
+.scopedStyles ol {
+  font-size: 16px;
+}
+
+.scopedStyles ul {
+  list-style-type: none;
+}
+
+.scopedStyles ol {
+  counter-reset: item;
+  list-style-type: none;
+}
+
+.scopedStyles a {
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.scopedStyles a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+.scopedStyles code {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f4f4f4;
+  font-size: 14px;
+}
+
+.scopedStyles pre {
+  overflow-x: auto;
+}
+
+.scopedStyles pre code {
+  background-color: transparent;
+}
+
+.scopedStyles blockquote {
+  font-style: italic;
+  color: #7f8c8d;
+  background-color: #ecf0f1;
+}
+
+.scopedStyles table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #fff;
+}
+
+.scopedStyles th,
+.scopedStyles td {
+  text-align: left;
+}
+
+.scopedStyles th {
+  background-color: #3498db;
+  color: #fff;
+  font-weight: bold;
+}
+
+.scopedStyles tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

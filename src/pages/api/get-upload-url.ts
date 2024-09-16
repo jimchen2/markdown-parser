@@ -5,12 +5,17 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { v4 as uuidv4 } from "uuid";
 import { withAuth } from "../../lib/auth";
 
-export default withAuth(async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  // Check if the request has the admin key
+  const adminKey = process.env.ADMIN_KEY;
+  const authKey = req.cookies.authKey;
+
+  if (authKey !== adminKey) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   try {
@@ -41,4 +46,6 @@ export default withAuth(async function handler(
     console.error("Error generating pre-signed URL:", error);
     res.status(500).json({ error: "Error generating upload URL" });
   }
-});
+}
+
+export default withAuth(handler);

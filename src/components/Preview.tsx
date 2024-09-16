@@ -1,16 +1,21 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { marked } from "marked";
 import katex from "katex";
 import { exportToHTML } from "./PreviewUtils";
 import "katex/dist/katex.min.css";
+import styles from "./renderhtml.module.css";
 
 interface PreviewProps {
   markdown: string;
   title: string;
 }
 
+const COOLDOWN_PERIOD = 5000; // 5 seconds in milliseconds
+
 const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
   const previewRef = useRef<HTMLDivElement>(null);
+  const lastRenderTimeRef = useRef<number>(0);
+  const [, forceUpdate] = useState({});
 
   useEffect(() => {
     const renderLatex = (html: string) => {
@@ -46,13 +51,24 @@ const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
       }
     };
 
-    renderMarkdown();
+    const currentTime = Date.now();
+    if (currentTime - lastRenderTimeRef.current >= COOLDOWN_PERIOD) {
+      renderMarkdown();
+      lastRenderTimeRef.current = currentTime;
+    } else {
+      const remainingCooldown = COOLDOWN_PERIOD - (currentTime - lastRenderTimeRef.current);
+      setTimeout(() => {
+        renderMarkdown();
+        lastRenderTimeRef.current = Date.now();
+        forceUpdate({});
+      }, remainingCooldown);
+    }
   }, [markdown]);
 
   return (
-    <div className="bg-gray-50 rounded-lg shadow-lg overflow-hidden font-roboto">
+    <div className={`${styles.scopedStyles} bg-gray-50 rounded-lg shadow-lg overflow-hidden font-quicksand`}>
       <div className="bg-gray-100 p-4 flex justify-between items-center border-b border-gray-200">
-        <h2 className="text-2xl font-semibold font-display text-gray-800">{title || 'Preview'}</h2>
+        <h2 className="text-2xl font-semibold font-quicksand text-gray-800">{title || 'Preview'}</h2>
         <button
           onClick={() => exportToHTML(previewRef)}
           className="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"

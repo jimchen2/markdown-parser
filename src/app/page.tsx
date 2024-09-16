@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from "react";
 import DocumentTree from "../components/DocumentTree";
 import DocumentEditor from "../components/DocumentEditor";
@@ -15,7 +17,7 @@ export default function Home() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 1000);
     };
 
     checkMobile();

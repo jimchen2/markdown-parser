@@ -2,6 +2,8 @@
 
 A simple, clean note-taking and markdown converting tool built with NextJS, featuring a backend with MongoDB & S3 Bucket for media storage. Web-based with PWA support for mobile.
 
+Please use seperate IAM credentials for the S3 bucket to avoid destroying everything!
+
 ## Future (Hopeful) Features
 
 - [ ] Remember where the document left out in cookies

@@ -13,6 +13,7 @@ const nextConfig = {
     // This will ignore TypeScript errors during the build
     ignoreBuildErrors: true,
   },
+  
 };
 
 const withPWAConfig = withPWA({
