@@ -39,10 +39,9 @@ export async function fetchDocumentByTitle(title: string): Promise<DocumentType>
 export const saveDocument = (() => {
   let lastExecutionTime = 0;
   let scheduledExecution: NodeJS.Timeout | null = null;
-  const cooldownPeriod = 3000;
+  const cooldownPeriod = 1000;
 
   const executeSave = async (doc: DocumentType) => {
-    console.log("Saving document:", doc);
     const response = await fetch(`/api/documents/${doc._id}`, {
       method: "PUT",
       headers: {

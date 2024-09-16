@@ -1,6 +1,4 @@
-// next.config.mjs
-
-import withPWA from 'next-pwa';
+import withPWA from "next-pwa";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -13,11 +11,13 @@ const nextConfig = {
     // This will ignore TypeScript errors during the build
     ignoreBuildErrors: true,
   },
-  
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 };
 
 const withPWAConfig = withPWA({
-  dest: 'public',
+  dest: "public",
   register: true,
   skipWaiting: true,
 });

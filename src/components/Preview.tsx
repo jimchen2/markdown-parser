@@ -11,52 +11,50 @@ interface PreviewProps {
   title: string;
 }
 
-const COOLDOWN_PERIOD = 5000;
+const RENDER_INTERVAL = 5000; 
 
 const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
   const previewRef = useRef<HTMLDivElement>(null);
-  const lastRenderTimeRef = useRef<number>(0);
   const [, forceUpdate] = useState({});
 
-  useEffect(() => {
-    const renderLatex = (html: string) => {
-      const codeBlocks: string[] = [];
-      const htmlWithoutCode = html.replace(/(<pre><code>[\s\S]*?<\/code><\/pre>)|(<code>[^<]+<\/code>)/g, (match) => {
-        codeBlocks.push(match);
-        return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
-      });
+  const renderLatex = (html: string) => {
+    const codeBlocks: string[] = [];
+    const htmlWithoutCode = html.replace(/(<pre><code>[\s\S]*?<\/code><\/pre>)|(<code>[^<]+<\/code>)/g, (match) => {
+      codeBlocks.push(match);
+      return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
+    });
 
-      const processedHtml = htmlWithoutCode.replace(/\$\$(.*?)\$\$|\$(.*?)\$/g, (match, block, inline) => {
-        const latex = block || inline;
-        try {
-          return katex.renderToString(latex, { displayMode: !!block });
-        } catch (error) {
-          console.error("KaTeX error:", error);
-          return match;
-        }
-      });
-
-      return processedHtml.replace(/__CODE_BLOCK_(\d+)__/g, (_, index) => codeBlocks[parseInt(index)]);
-    };
-
-    const renderMarkdown = () => {
-      if (previewRef.current) {
-        previewRef.current.innerHTML = renderLatex(marked(markdown));
+    const processedHtml = htmlWithoutCode.replace(/\$\$(.*?)\$\$|\$(.*?)\$/g, (match, block, inline) => {
+      const latex = block || inline;
+      try {
+        return katex.renderToString(latex, { displayMode: !!block });
+      } catch (error) {
+        console.error("KaTeX error:", error);
+        return match;
       }
-    };
+    });
 
-    const currentTime = Date.now();
-    if (currentTime - lastRenderTimeRef.current >= COOLDOWN_PERIOD) {
-      renderMarkdown();
-      lastRenderTimeRef.current = currentTime;
-    } else {
-      const remainingCooldown = COOLDOWN_PERIOD - (currentTime - lastRenderTimeRef.current);
-      setTimeout(() => {
-        renderMarkdown();
-        lastRenderTimeRef.current = Date.now();
-        forceUpdate({});
-      }, remainingCooldown);
+    return processedHtml.replace(/__CODE_BLOCK_(\d+)__/g, (_, index) => codeBlocks[parseInt(index)]);
+  };
+
+  const renderMarkdown = () => {
+    if (previewRef.current) {
+      previewRef.current.innerHTML = renderLatex(marked(markdown));
     }
+  };
+
+  useEffect(() => {
+    // Initial render
+    renderMarkdown();
+
+    // Set up interval for regular rendering
+    const intervalId = setInterval(() => {
+      renderMarkdown();
+      forceUpdate({});
+    }, RENDER_INTERVAL);
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
   }, [markdown]);
 
   const getShareableLink = () => `https://markdown.jimchen.me/?title=${encodeURIComponent(title)}`;
