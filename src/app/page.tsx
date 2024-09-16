@@ -9,6 +9,7 @@ import { useDocuments } from "../hooks/useDocuments";
 import { setCookie } from "../components/cookie";
 import CookieModal from "../components/CookieModal";
 import MobileView from "../mobile/MobileView";
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const {
@@ -33,16 +34,20 @@ export default function Home() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const router = useRouter();
+
   const fetchDocumentByTitleFromURL = useCallback(async () => {
     const title = searchParams.get("title");
     if (title) {
       try {
         await fetchDocumentByTitle(title);
+        // Soft redirect to root path
+        router.replace('/');
       } catch (error) {
         console.error("Error fetching document by title:", error);
       }
     }
-  }, []); // Remove dependencies from useCallback
+    }, []); // Remove dependencies from useCallback
   
   useEffect(() => {
     fetchDocumentByTitleFromURL();
