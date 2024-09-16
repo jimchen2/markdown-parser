@@ -1,6 +1,7 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import DocumentTree from "../components/DocumentTree";
 import DocumentEditor from "../components/DocumentEditor";
 import Preview from "../components/Preview";
@@ -10,10 +11,17 @@ import CookieModal from "../components/CookieModal";
 import MobileView from "../mobile/MobileView";
 
 export default function Home() {
-  const { selectedDoc, handleDeleteDocument, fetchDocument, handleDocumentChange, handleNewDocument } = useDocuments();
-
+  const {
+    selectedDoc,
+    handleDeleteDocument,
+    fetchDocument,
+    fetchDocumentByTitle,
+    handleDocumentChange,
+    handleNewDocument,
+  } = useDocuments();
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -22,10 +30,24 @@ export default function Home() {
 
     checkMobile();
     window.addEventListener("resize", checkMobile);
-
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const fetchDocumentByTitleFromURL = useCallback(async () => {
+    const title = searchParams.get("title");
+    if (title) {
+      try {
+        await fetchDocumentByTitle(title);
+      } catch (error) {
+        console.error("Error fetching document by title:", error);
+      }
+    }
+  }, []); // Remove dependencies from useCallback
+  
+  useEffect(() => {
+    fetchDocumentByTitleFromURL();
+  }, []); // Empty dependency array
+  
   const handleCookieButton = () => {
     setIsModalOpen(true);
   };
@@ -50,27 +72,44 @@ export default function Home() {
       />
     );
   }
+
   return (
     <div className="min-h-screen flex">
       <div className="w-1/5 bg-white p-4 flex flex-col">
-        <button className="mb-4 text-black p-2 rounded hover:scale-105" onClick={handleNewDocument}>
+        <button
+          className="mb-4 text-black p-2 rounded hover:scale-105"
+          onClick={handleNewDocument}
+        >
           New Document
         </button>
-        <button className="mb-4 text-black p-2 rounded hover:scale-105" onClick={handleDeleteDocument}>
+        <button
+          className="mb-4 text-black p-2 rounded hover:scale-105"
+          onClick={handleDeleteDocument}
+        >
           Delete Document
         </button>
 
         <div className="w-full">
           <div className="w-full">
-            <DocumentTree mobile={isMobile} onSelectDocumentId={fetchDocument} />
+            <DocumentTree
+              mobile={isMobile}
+              onSelectDocumentId={fetchDocument}
+            />
           </div>
         </div>
       </div>
       <div className="w-2/5">
-        <DocumentEditor document={selectedDoc} onChange={handleDocumentChange} isMobile={isMobile} />
+        <DocumentEditor
+          document={selectedDoc}
+          onChange={handleDocumentChange}
+          isMobile={isMobile}
+        />
       </div>
       <div className="w-2/5">
-        <Preview markdown={selectedDoc?.body || ""} title={selectedDoc?.title || "Untitled"} />
+        <Preview
+          markdown={selectedDoc?.body || ""}
+          title={selectedDoc?.title || "Untitled"}
+        />
       </div>
       <div className="absolute bottom-4 left-4 flex flex-col items-center">
         <button
@@ -82,7 +121,11 @@ export default function Home() {
           </span>
         </button>
       </div>
-      <CookieModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSetCookie={handleSetCookie} />
+      <CookieModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSetCookie={handleSetCookie}
+      />
     </div>
   );
 }

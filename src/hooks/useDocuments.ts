@@ -1,7 +1,8 @@
+// useDocuments.ts
+
 import { useState, useEffect, useRef } from "react";
 import { debounce } from "lodash";
-import { DocumentType } from "../types";
-import { fetchDocument, saveDocument, createDocument, deleteDocument } from "./frontendutils";
+import { DocumentType, fetchDocument, saveDocument, createDocument, deleteDocument, fetchDocumentByTitle as fetchDocumentByTitleAPI } from "./frontendutils";
 
 const defaultDocument: DocumentType = {
   _id: "",
@@ -12,7 +13,7 @@ const defaultDocument: DocumentType = {
 };
 
 export function useDocuments() {
-  const [documents, setDocuments] = useState([]);
+  const [documents, setDocuments] = useState<DocumentType[]>([]);
   const [selectedDoc, setSelectedDoc] = useState<DocumentType>(defaultDocument);
   const [isLoading, setIsLoading] = useState(false);
   const lastSavedVersionRef = useRef<DocumentType | null>(null);
@@ -31,6 +32,20 @@ export function useDocuments() {
     }
   };
 
+  const fetchDocumentByTitle = async (title: string) => {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const result = await fetchDocumentByTitleAPI(title);
+      setSelectedDoc(result);
+      lastSavedVersionRef.current = result;
+    } catch (error) {
+      console.error("Error fetching document by title:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
   const debouncedSave = debounce(async (doc: DocumentType) => {
     if (JSON.stringify(doc) === JSON.stringify(lastSavedVersionRef.current)) {
       return;
@@ -39,19 +54,20 @@ export function useDocuments() {
     try {
       const result = await saveDocument(doc);
       lastSavedVersionRef.current = result;
-      setDocuments((prevDocuments) => prevDocuments.map((d) => (d._id === result._id ? { _id: result._id, title: result.title } : d)));
+      setDocuments((prevDocuments) => prevDocuments.map((d) => (d._id === result._id ? { ...d, title: result.title } : d)));
     } catch (error) {
       console.error("Error saving document:", error);
     }
   }, 1000);
 
-  const handleDocumentChange = (field: string, value: string | number | Date) => {
+  const handleDocumentChange = (field: keyof DocumentType, value: string | number | Date) => {
     if (selectedDoc) {
       const updatedDoc = { ...selectedDoc, [field]: value };
       setSelectedDoc(updatedDoc);
       debouncedSave(updatedDoc);
     }
   };
+
   const handleNewDocument = async () => {
     const title = prompt("Enter a title for the new document:");
     if (!title) return;
@@ -61,11 +77,9 @@ export function useDocuments() {
 
     try {
       const newDoc = await createDocument(title, type);
-      // Update local state
-      setDocuments((prevDocuments) => [...prevDocuments, { _id: newDoc._id, title: newDoc.title }]);
+      setDocuments((prevDocuments) => [...prevDocuments, newDoc]);
       setSelectedDoc(newDoc);
       lastSavedVersionRef.current = newDoc;
-      window.location.reload();
     } catch (error) {
       alert("Error creating document: " + error);
     }
@@ -79,14 +93,16 @@ export function useDocuments() {
       try {
         await deleteDocument(title);
         alert(`Document "${title}" has been deleted.`);
-        window.location.reload();
+        setDocuments((prevDocuments) => prevDocuments.filter((doc) => doc.title !== title));
+        if (selectedDoc.title === title) {
+          setSelectedDoc(defaultDocument);
+        }
       } catch (error) {
         console.error("Error deleting document:", error);
         alert(`Error deleting document: ${error}`);
       }
     }
   };
-
 
   useEffect(() => {
     return () => {
@@ -99,6 +115,7 @@ export function useDocuments() {
     selectedDoc,
     isLoading,
     fetchDocument: fetchDocumentById,
+    fetchDocumentByTitle,
     handleDocumentChange,
     handleNewDocument,
     handleDeleteDocument,

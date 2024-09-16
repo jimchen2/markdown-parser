@@ -1,4 +1,6 @@
-interface DocumentType {
+// frontendutils.ts
+
+export interface DocumentType {
   _id: string;
   title: string;
   body: string;
@@ -7,9 +9,7 @@ interface DocumentType {
   access?: number;
 }
 
-
 export async function fetchDocumentMetadata(): Promise<any> {
-
   const response = await fetch("/api/getDocumentMetadata");
   if (response.ok) {
     const result = await response.json();
@@ -18,7 +18,7 @@ export async function fetchDocumentMetadata(): Promise<any> {
   throw new Error('Failed to fetch document metadata');
 }
 
-export async function fetchDocument(id) {
+export async function fetchDocument(id: string): Promise<DocumentType> {
   const response = await fetch(`/api/getdocuments?id=${id}`);
   if (response.ok) {
     const result = await response.json();
@@ -27,11 +27,19 @@ export async function fetchDocument(id) {
   throw new Error("Failed to fetch document");
 }
 
+export async function fetchDocumentByTitle(title: string): Promise<DocumentType> {
+  const response = await fetch(`/api/documents?title=${encodeURIComponent(title)}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch document by title');
+  }
+  const result = await response.json();
+  return result.data;
+}
 
 export const saveDocument = (() => {
   let lastExecutionTime = 0;
   let scheduledExecution: NodeJS.Timeout | null = null;
-  const cooldownPeriod = 3000; // 5 seconds in milliseconds
+  const cooldownPeriod = 3000;
 
   const executeSave = async (doc: DocumentType) => {
     console.log("Saving document:", doc);
@@ -73,7 +81,7 @@ export const saveDocument = (() => {
   };
 })();
 
-export async function createDocument(title: string, type: string) {
+export async function createDocument(title: string, type: string): Promise<DocumentType> {
   const response = await fetch("/api/newDocuments", {
     method: "POST",
     headers: {
@@ -91,7 +99,8 @@ export async function createDocument(title: string, type: string) {
   }
   throw new Error(response.statusText);
 }
-export async function deleteDocument(title: string) {
+
+export async function deleteDocument(title: string): Promise<any> {
   const response = await fetch('/api/deleteDocuments', {
     method: "DELETE",
     headers: {
