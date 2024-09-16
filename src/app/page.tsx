@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from 'next/navigation';
 import DocumentTree from "../components/DocumentTree";
 import DocumentEditor from "../components/DocumentEditor";
 import Preview from "../components/Preview";
@@ -9,7 +9,6 @@ import { useDocuments } from "../hooks/useDocuments";
 import { setCookie } from "../components/cookie";
 import CookieModal from "../components/CookieModal";
 import MobileView from "../mobile/MobileView";
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const {
@@ -22,7 +21,7 @@ export default function Home() {
   } = useDocuments();
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -34,25 +33,25 @@ export default function Home() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const router = useRouter();
-
   const fetchDocumentByTitleFromURL = useCallback(async () => {
-    const title = searchParams.get("title");
+    const title = router.query?.title;
     if (title) {
       try {
-        await fetchDocumentByTitle(title);
+        await fetchDocumentByTitle(title as string);
         // Soft redirect to root path
         router.replace('/');
       } catch (error) {
         console.error("Error fetching document by title:", error);
       }
     }
-    }, []); // Remove dependencies from useCallback
+  }, [router, fetchDocumentByTitle]);
   
   useEffect(() => {
-    fetchDocumentByTitleFromURL();
-  }, []); // Empty dependency array
-  
+    if (router.isReady) {
+      fetchDocumentByTitleFromURL();
+    }
+  }, [router.isReady, fetchDocumentByTitleFromURL]);
+
   const handleCookieButton = () => {
     setIsModalOpen(true);
   };

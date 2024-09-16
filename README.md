@@ -6,12 +6,6 @@ Please use seperate IAM credentials for the S3 bucket to avoid destroying everyt
 
 ## Future (Hopeful) Features
 
-- [ ] Remember where the document left out in cookies
-- [ ] Address performance concerns: Optimize dynamic updating to handle large content more efficiently.
-- [ ] Enhance code formatting: Add syntax highlighting and a copy button for code blocks in HTML output.
-- [ ] Add Page Redirect for subroutes
-- [ ] Fix the indent Issues on the sidebar
-
 ## Release v0.3
 
 - [x] TreeNode Ugly and Buggy
