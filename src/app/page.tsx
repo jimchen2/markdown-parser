@@ -6,7 +6,7 @@ import DocumentTree from "../components/DocumentTree";
 import DocumentEditor from "../components/DocumentEditor";
 import Preview from "../components/Preview";
 import { useDocuments } from "../hooks/useDocuments";
-import { setCookie } from "../components/cookie";
+import { setLocalStorage } from "../components/cookie";
 import CookieModal from "../components/CookieModal";
 import MobileView from "../mobile/MobileView";
 import { useRouter } from 'next/navigation';
@@ -58,7 +58,7 @@ export default function Home() {
   };
 
   const handleSetCookie = (cookieValue: string) => {
-    setCookie(cookieValue);
+    setLocalStorage(cookieValue);
     setIsModalOpen(false);
     window.location.reload();
   };

@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(404).json({ success: false, message: "Document not found" });
         }
 
-        const authKey = req.cookies.authKey;
+        const authKey = req.headers.authorization?.split(' ')[1];
         const viewKey = process.env.VIEW_KEY;
         const privateViewKey = process.env.PRIVATE_VIEW_KEY;
         const adminKey = process.env.ADMIN_KEY;

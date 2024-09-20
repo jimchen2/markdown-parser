@@ -6,7 +6,7 @@ export function withAuth(handler: (req: NextApiRequest, res: NextApiResponse) =>
     const viewKey = process.env.VIEW_KEY;
     const privateviewKey = process.env.PRIVATE_VIEW_KEY;
 
-    const authKey = req.cookies.authKey;
+    const authKey = req.headers.authorization?.split(' ')[1];
     const method = req.method?.toUpperCase();
 
     // If both keys are empty, don't apply any authentication

@@ -1,5 +1,3 @@
-// frontendutils.ts
-
 export interface DocumentType {
   _id: string;
   title: string;
@@ -9,8 +7,18 @@ export interface DocumentType {
   access?: number;
 }
 
+const getAuthKey = (): string | null => {
+  return localStorage.getItem('authKey');
+};
+
 export async function fetchDocumentMetadata(): Promise<any> {
-  const response = await fetch("/api/getDocumentMetadata");
+  const authKey = getAuthKey();
+  const response = await fetch("/api/getDocumentMetadata", {
+    headers: {
+      'Authorization': authKey ? `Bearer ${authKey}` : ''
+    }
+  });
+  
   if (response.ok) {
     const result = await response.json();
     return result.data;
@@ -19,7 +27,13 @@ export async function fetchDocumentMetadata(): Promise<any> {
 }
 
 export async function fetchDocument(id: string): Promise<DocumentType> {
-  const response = await fetch(`/api/getdocuments?id=${id}`);
+  const authKey = getAuthKey();
+  const response = await fetch(`/api/getdocuments?id=${id}`, {
+    headers: {
+      'Authorization': authKey ? `Bearer ${authKey}` : ''
+    }
+  });
+  
   if (response.ok) {
     const result = await response.json();
     return result;
@@ -28,10 +42,17 @@ export async function fetchDocument(id: string): Promise<DocumentType> {
 }
 
 export async function fetchDocumentByTitle(title: string): Promise<DocumentType> {
-  const response = await fetch(`/api/documents?title=${encodeURIComponent(title)}`);
+  const authKey = getAuthKey();
+  const response = await fetch(`/api/documents?title=${encodeURIComponent(title)}`, {
+    headers: {
+      'Authorization': authKey ? `Bearer ${authKey}` : ''
+    }
+  });
+
   if (!response.ok) {
     throw new Error('Failed to fetch document by title');
   }
+  
   const result = await response.json();
   return result.data;
 }
@@ -42,10 +63,12 @@ export const saveDocument = (() => {
   const cooldownPeriod = 1000;
 
   const executeSave = async (doc: DocumentType) => {
+    const authKey = getAuthKey();
     const response = await fetch(`/api/documents/${doc._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': authKey ? `Bearer ${authKey}` : ''
       },
       body: JSON.stringify(doc),
     });
@@ -57,7 +80,7 @@ export const saveDocument = (() => {
     throw new Error("Error saving document");
   };
 
-  return async function(doc: DocumentType): Promise<any> {
+  return async function (doc: DocumentType): Promise<any> {
     const currentTime = Date.now();
     const timeElapsed = currentTime - lastExecutionTime;
 
@@ -81,10 +104,12 @@ export const saveDocument = (() => {
 })();
 
 export async function createDocument(title: string, type: string): Promise<DocumentType> {
+  const authKey = getAuthKey();
   const response = await fetch("/api/newDocuments", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      'Authorization': authKey ? `Bearer ${authKey}` : ''
     },
     body: JSON.stringify({
       title,
@@ -100,10 +125,12 @@ export async function createDocument(title: string, type: string): Promise<Docum
 }
 
 export async function deleteDocument(title: string): Promise<any> {
+  const authKey = getAuthKey();
   const response = await fetch('/api/deleteDocuments', {
     method: "DELETE",
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': authKey ? `Bearer ${authKey}` : ''
     },
     body: JSON.stringify({ title }),
   });

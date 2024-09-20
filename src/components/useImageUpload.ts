@@ -1,14 +1,19 @@
 import { useState } from "react";
-import { DocumentType } from "../types";
 
-const useImageUpload = (
-  document: DocumentType | null,
-  onChange: (field: string, value: string) => void
-) => {
+const getAuthKey = (): string | null => {
+  return localStorage.getItem("authKey");
+};
+
+const useImageUpload = (document: DocumentType | null, onChange: (field: string, value: string) => void) => {
   const [isUploading, setIsUploading] = useState(false);
 
   const uploadImage = async (file: File): Promise<string> => {
-    const response = await fetch("/api/get-upload-url");
+    const authKey = getAuthKey();
+    const response = await fetch("/api/get-upload-url", {
+      headers: {
+        Authorization: authKey ? `Bearer ${authKey}` : "",
+      },
+    });
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -19,6 +24,7 @@ const useImageUpload = (
       body: file,
       headers: {
         "Content-Type": file.type,
+        Authorization: authKey ? `Bearer ${authKey}` : "",
       },
     });
 
@@ -34,11 +40,7 @@ const useImageUpload = (
       setIsUploading(true);
       const imageUrl = await uploadImage(file);
       const imageMarkdown = `![Image](${imageUrl})`;
-      const newBody = document?.body
-        ? document.body.slice(0, cursorPosition) +
-          imageMarkdown +
-          document.body.slice(cursorPosition)
-        : imageMarkdown;
+      const newBody = document?.body ? document.body.slice(0, cursorPosition) + imageMarkdown + document.body.slice(cursorPosition) : imageMarkdown;
       onChange("body", newBody);
     } catch (error) {
       console.error("Error uploading image:", error);
