@@ -24,10 +24,8 @@ const useImageUpload = (document: DocumentType | null, onChange: (field: string,
       body: file,
       headers: {
         "Content-Type": file.type,
-        Authorization: authKey ? `Bearer ${authKey}` : "",
       },
     });
-
     if (!uploadResponse.ok) {
       throw new Error("Failed to upload image");
     }

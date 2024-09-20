@@ -12,7 +12,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // Check if the request has the admin key
   const adminKey = process.env.ADMIN_KEY;
-  const authKey = req.cookies.authKey;
+
+  const authKey = req.headers.authorization?.split(' ')[1];
 
   if (authKey !== adminKey) {
     return res.status(401).json({ success: false, message: "Unauthorized" });
@@ -20,7 +21,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const s3Client = new S3Client({
-      region: process.env.AWS_DEFAULT_REGION,
+      region: process.env.AWS_REGION,
+      endpoint: process.env.AWS_ENDPOINT_URL,
       credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
