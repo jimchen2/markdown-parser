@@ -20,8 +20,6 @@
 .DS_Store
 *.pem
 
-sw.js
-sw.js.map
 
 # debug
 npm-debug.log*
