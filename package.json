@@ -27,6 +27,8 @@
     "jspdf-autotable": "^3.8.2",
     "katex": "^0.16.11",
     "lodash": "^4.17.21",
+    "markdown-it": "^14.1.0",
+    "markdown-it-katex": "^2.0.3",
     "marked": "^13.0.2",
     "mongodb": "^6.7.0",
     "mongoose": "^8.4.3",
@@ -36,7 +38,13 @@
     "react-dom": "^18",
     "react-markdown": "^9.0.1",
     "react-to-pdf": "^1.0.1",
+    "rehype-katex": "^7.0.1",
+    "rehype-stringify": "^10.0.0",
     "remark-gfm": "^4.0.0",
+    "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.1",
+    "unified": "^11.0.5",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

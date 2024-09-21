@@ -1,37 +1,16 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
-import { marked } from "marked";
-import katex from "katex";
-import { exportToHTML } from "./PreviewUtils";
 import "katex/dist/katex.min.css";
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import { exportToHTML } from "./PreviewUtils";
 import styles from "./renderhtml.module.css";
-import CopyButton from "./CopyButton"
+import CopyButton from "./CopyButton";
+import {renderLatex} from "./renderMarkdown"
 
 interface PreviewProps {
   markdown: string;
   title: string;
 }
 
-const COOLDOWN_PERIOD = 5000; 
-
-const renderLatex = (html: string) => {
-  const codeBlocks: string[] = [];
-  const htmlWithoutCode = html.replace(/(<pre><code>[\s\S]*?<\/code><\/pre>)|(<code>[^<]+<\/code>)/g, (match) => {
-    codeBlocks.push(match);
-    return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
-  });
-
-  const processedHtml = htmlWithoutCode.replace(/\$\$(.*?)\$\$|\$(.*?)\$/g, (match, block, inline) => {
-    const latex = block || inline;
-    try {
-      return katex.renderToString(latex, { displayMode: !!block });
-    } catch (error) {
-      console.error("KaTeX error:", error);
-      return match;
-    }
-  });
-
-  return processedHtml.replace(/__CODE_BLOCK_(\d+)__/g, (_, index) => codeBlocks[parseInt(index)]);
-};
+const COOLDOWN_PERIOD = 5000;
 
 const getShareableLink = (title: string) => `https://markdown.jimchen.me/?title=${encodeURIComponent(title)}`;
 
@@ -43,7 +22,8 @@ const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
 
   const renderMarkdown = useCallback(() => {
     if (previewRef.current) {
-      previewRef.current.innerHTML = renderLatex(marked(markdown));
+      const finalHtml = renderLatex(markdown);
+      previewRef.current.innerHTML = finalHtml;
       forceUpdate({});
     }
   }, [markdown]);
@@ -81,7 +61,7 @@ const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
   return (
     <div className={`${styles.scopedStyles} bg-gray-50 rounded-lg shadow-lg overflow-hidden font-quicksand`}>
       <div className="bg-gray-100 p-4 flex justify-between items-center border-b border-gray-200">
-        <h2 className="text-2xl font-semibold font-quicksand text-gray-800">{title || 'Preview'}</h2>
+        <h2 className="text-2xl font-semibold font-quicksand text-gray-800">{title || "Preview"}</h2>
         <div className="flex space-x-2 items-center">
           <CopyButton text={getShareableLink(title)} />
           <button
@@ -92,10 +72,7 @@ const Preview: React.FC<PreviewProps> = ({ markdown, title }) => {
           </button>
         </div>
       </div>
-      <div
-        ref={previewRef}
-        className="prose max-w-none bg-white h-[730px] overflow-y-auto p-8 shadow-inner"
-      ></div>
+      <div ref={previewRef} className="prose max-w-none bg-white h-[730px] overflow-y-auto p-8 shadow-inner"></div>
     </div>
   );
 };
